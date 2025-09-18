@@ -1,10 +1,5 @@
-# Ignorar dependências
+# Ignore dependences
 node_modules/
+test-results/
 
-# Ignorar builds
-dist/
-build/
 
-# Ignorar configs locais
-.env
-*.log
