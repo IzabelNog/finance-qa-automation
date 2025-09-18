@@ -1,0 +1,308 @@
+{
+	"info": {
+		"_postman_id": "5d7d680f-6bff-408d-83fc-3c3a6d248774",
+		"name": "Parabank API test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39944215",
+		"_collection_link": "https://www.postman.com/spaceflight-architect-5986708/workspace/qa-estudo/collection/39944215-5d7d680f-6bff-408d-83fc-3c3a6d248774?action=share&source=collection_link&creator=39944215"
+	},
+	"item": [
+		{
+			"name": "Accounts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/customers/13766/accounts",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"customers",
+						"value_id", 
+						"accounts"
+					],
+					"_comment_path": "in value_id user id for your test"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Initial balance checking account",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = xml2Json(responseBody);\r",
+							"\r",
+							"// Conta de origem\r",
+							"if(pm.request.url.toString().includes(\"17007\")){\r",
+							"    pm.globals.set(\"balance_17007\", parseFloat(jsonData.account.balance));\r",
+							"}\r",
+							"\r",
+							"// Conta de destino\r",
+							"if(pm.request.url.toString().includes(\"17229\")){\r",
+							"    pm.globals.set(\"balance_17229\", parseFloat(jsonData.account.balance));\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/accounts/17007",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"accounts",
+						"17007"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Initial balance savings account",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = xml2Json(responseBody);\r",
+							"\r",
+							"// Conta de origem\r",
+							"if(pm.request.url.toString().includes(\"17007\")){\r",
+							"    pm.globals.set(\"balance_17007\", parseFloat(jsonData.account.balance));\r",
+							"}\r",
+							"\r",
+							"// Conta de destino\r",
+							"if(pm.request.url.toString().includes(\"17229\")){\r",
+							"    pm.globals.set(\"balance_17229\", parseFloat(jsonData.account.balance));\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/accounts/17229",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"accounts",
+						"17229"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transfer",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Transaction successful\", function () {\r",
+							"    pm.expect(pm.response.text().toLowerCase()).to.include(\"success\");\r",
+							"});;"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/transfer?fromAccountId=17007&toAccountId=17229&amount=100",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"transfer"
+					],
+					"query": [
+						{
+							"key": "fromAccountId",
+							"value": "17007"
+						},
+						{
+							"key": "toAccountId",
+							"value": "17229"
+						},
+						{
+							"key": "amount",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validate balance checking",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = xml2Json(responseBody);\r",
+							"\r",
+							"// Conta de origem\r",
+							"if(pm.request.url.toString().includes(\"17007\")){\r",
+							"    var balance_after = parseFloat(jsonData.account.balance);\r",
+							"    var balance_before = parseFloat(pm.globals.get(\"balance_17007\"));\r",
+							"    pm.test(\"Saldo da conta de origem diminuiu\", function(){\r",
+							"        pm.expect(balance_after).to.be.below(balance_before);\r",
+							"    });\r",
+							"}\r",
+							"\r",
+							"// Conta de destino\r",
+							"if(pm.request.url.toString().includes(\"17229\")){\r",
+							"    var balance_after = parseFloat(jsonData.account.balance);\r",
+							"    var balance_before = parseFloat(pm.globals.get(\"balance_17229\"));\r",
+							"    pm.test(\"Saldo da conta de destino aumentou\", function(){\r",
+							"        pm.expect(balance_after).to.be.above(balance_before);\r",
+							"    });\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/accounts/17007",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"accounts",
+						"17007"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validate balance savings",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = xml2Json(responseBody);\r",
+							"\r",
+							"// Conta de origem\r",
+							"if(pm.request.url.toString().includes(\"17007\")){\r",
+							"    var balance_after = parseFloat(jsonData.account.balance);\r",
+							"    var balance_before = parseFloat(pm.globals.get(\"balance_17007\"));\r",
+							"    pm.test(\"Saldo da conta de origem diminuiu\", function(){\r",
+							"        pm.expect(balance_after).to.be.below(balance_before);\r",
+							"    });\r",
+							"}\r",
+							"\r",
+							"// Conta de destino\r",
+							"if(pm.request.url.toString().includes(\"17229\")){\r",
+							"    var balance_after = parseFloat(jsonData.account.balance);\r",
+							"    var balance_before = parseFloat(pm.globals.get(\"balance_17229\"));\r",
+							"    pm.test(\"Saldo da conta de destino aumentou\", function(){\r",
+							"        pm.expect(balance_after).to.be.above(balance_before);\r",
+							"    });\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/accounts/17229",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"accounts",
+						"17229"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
