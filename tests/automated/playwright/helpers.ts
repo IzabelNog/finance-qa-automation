@@ -1,14 +1,14 @@
 import { Page } from '@playwright/test';
-//É necessario fazer registro no site todos os dias, pois os usuarios sao resetados
+// You must register on the site every day, as users are reset daily
 export async function login(
   page: Page,
-  username = 'usertest',
-  password = 'password'
+  username = 'your_testuser',
+  password = 'your_password'
 ) {
   await page.goto('https://parabank.parasoft.com/parabank/index.htm');
   await page.fill('input[name="username"]', username);
   await page.fill('input[name="password"]', password);
   await page.getByRole('button', { name: 'Log In' }).click();
-  // Garante que login foi feito
+  // Ensures login was successful
   await page.getByRole('link', { name: 'Log Out' }).waitFor();
 }

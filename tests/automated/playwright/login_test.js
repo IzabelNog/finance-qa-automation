@@ -1,20 +1,20 @@
 const { test, expect } = require('@playwright/test');
 
-test('Login no ParaBank com sucesso', async ({ page }) => {
+test('Successful login to ParaBank', async ({ page }) => {
   await page.goto('https://parabank.parasoft.com/parabank/index.htm');
 
-  await page.fill('input[name="username"]', 'userteste');
-  await page.fill('input[name="password"]', 'password');
+  await page.fill('input[name="username"]', 'your_testuser');
+  await page.fill('input[name="password"]', 'your_password');
 
   await page.getByRole('button', { name: 'Log In' }).click();
 
   await expect(page.locator('text=Log Out')).toBeVisible();
 });
 
-test('Falha no login com credenciais inválidas', async ({ page }) => {
+test('Login failure with invalid credentials', async ({ page }) => {
   await page.goto('https://parabank.parasoft.com/parabank/index.htm');
-  await page.fill('input[name="username"]', 'usuario_invalido');
-  await page.fill('input[name="password"]', 'senha_errada');
+  await page.fill('input[name="username"]', 'invalid_user');
+  await page.fill('input[name="password"]', 'wrong_password');
   await page.getByRole('button', { name: 'Log In' }).click();
 
   await expect(

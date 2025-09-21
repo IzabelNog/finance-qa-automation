@@ -17,9 +17,13 @@ async function makeTransfer(
   await page.getByRole('button', { name: 'TRANSFER' }).click();
 }
 
-test('Transferência bancária com sucesso', async ({ page }) => {
+test('Successful bank transfer', async ({ page }) => {
   await login(page);
-  await makeTransfer(page, '17007', '17229', '100');
+  // IMPORTANT: Replace 'fromAccountID' and 'toAccountId' below with your own account numbers
+  // obtained after registering and creating accounts in Parabank. These values change daily.
+  // Example:
+  // await makeTransfer(page, '12345', '67890', '100');
+  await makeTransfer(page, 'fromAccountID', 'toAccountId', '100');
 
   await expect(page.getByText('Transfer Complete!')).toBeVisible();
 });
