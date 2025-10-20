@@ -1,4 +1,4 @@
-[Fluxograma dos testes de QA]
+[QA Test Flowchart]
 
 1. User registers on Parabank
 2. User logs in and creates a second account
