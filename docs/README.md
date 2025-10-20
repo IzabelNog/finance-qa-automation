@@ -52,10 +52,20 @@ finance-qa-automation/
 │        └── parabank_manual_tests.ipynb   # Manual test instructions
 └── .gitignore                            # Ignore files/folders
 ```
+
+---
+
+## How to (single source-of-truth)
+
+Under Project Structure we maintain single-page guides for running the main automation tools. Link to the guides below so updates are made in one place and reused across documentation pages.
+
+- How to Run Cypress - docs/guide/run_cypress.md
+- How to Run Playwright - docs/guide/run_playwright.md
+- How to Run Postman - docs/guide/run_postman.md
+
 ---
 
 ## Example Test Cases
-
 
 ### Cypress Example
 
@@ -97,6 +107,7 @@ describe('Financial Calculations Validation', () => {
   });
 });
 ```
+
 ---
 
 ## Parabank Simulation Platform
@@ -126,29 +137,32 @@ You can use any fictitious values for these fields. For SSN, simply enter a rand
 To perform API and Playwright tests, you need at least two account IDs and your user ID. Follow these practical QA steps:
 
 1. **Register and Login:**
-  - Register a new user on Parabank with fictitious data.
-  - After registration, you will be automatically redirected to your account dashboard.
+
+- Register a new user on Parabank with fictitious data.
+- After registration, you will be automatically redirected to your account dashboard.
 
 2. **Open Developer Tools:**
-  - Press `F12` or right-click and select `Inspect` to open your browser's Developer Tools.
-  - Go to the `Network` tab.
+
+- Press `F12` or right-click and select `Inspect` to open your browser's Developer Tools.
+- Go to the `Network` tab.
 
 3. **Create a Second Account:**
-  - In Parabank, click on `Open New Account` and follow the steps to create a new account (choose account type and initial deposit).
-  - This step is essential for testing transfers between accounts.
+
+- In Parabank, click on `Open New Account` and follow the steps to create a new account (choose account type and initial deposit).
+- This step is essential for testing transfers between accounts.
 
 4. **Capture User and Account IDs:**
-  - After creating the new account, look in the `Network` tab for requests named `accounts` or similar.
-  - Click on these requests and check the response data. You will see your user ID and the IDs of all your accounts.
-  - Note these IDs; you will use them in your API endpoints and Playwright test scripts.
+
+- After creating the new account, look in the `Network` tab for requests named `accounts` or similar.
+- Click on these requests and check the response data. You will see your user ID and the IDs of all your accounts.
+- Note these IDs; you will use them in your API endpoints and Playwright test scripts.
 
 5. **Learning Outcomes:**
-  - By following these steps, you learn how to inspect web applications, understand how APIs communicate, and extract dynamic data for automated tests.
-  - This process develops your skills in browser debugging, API analysis, and manual test setup—key abilities for any QA professional.
 
+- By following these steps, you learn how to inspect web applications, understand how APIs communicate, and extract dynamic data for automated tests.
+- This process develops your skills in browser debugging, API analysis, and manual test setup—key abilities for any QA professional.
 
 **Important:**
-
 
 - All user and account data is deleted at the end of each day. You must re-register and use new account numbers for tests.
 - Account numbers and login credentials must be entered manually by the user before running Playwright and API tests. Always update your scripts or environment variables with the new data after registration.
@@ -183,14 +197,12 @@ async function makeTransfer(
 test('Transferência bancária com sucesso', async ({ page }) => {
   await login(page);
   // IMPORTANT: Replace 'fromAccountID' and 'toAccountId' below with your own account numbers
-  
+
   await makeTransfer(page, 'fromAccountID', 'toAccountId', '100');
 
   await expect(page.getByText('Transfer Complete!')).toBeVisible();
 });
-
 ```
-
 
 ### Postman Example
 
