@@ -11,7 +11,6 @@
 9. Review results and debug
 10. Optionally follow manual test instructions (Jupyter Notebook)
 
-[Visual Representation]
 
 User Registration --> Obtain IDs --> Create Second Account --> Update Scripts --> Run Automated Tests --> Review Results --> Manual Tests (optional)
 
