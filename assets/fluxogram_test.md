@@ -16,4 +16,3 @@ User Registration --> Obtain IDs --> Create Second Account --> Update Scripts --
 
 ---
 
-This is a placeholder for the QA test flowchart. Please replace with a visual diagram using draw.io, Lucidchart, or Mermaid for best results.
